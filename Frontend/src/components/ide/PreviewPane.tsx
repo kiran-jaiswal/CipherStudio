@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import { SandpackProvider, SandpackPreview, SandpackLayout } from "@codesandbox/sandpack-react";
 import { FileNode } from "@/types/project";
 import { RefreshCw, Smartphone, Monitor, Tablet } from "lucide-react";
@@ -15,18 +15,35 @@ type ViewportSize = "mobile" | "tablet" | "desktop";
 export const PreviewPane = ({ files, refreshKey }: PreviewPaneProps) => {
   const [viewport, setViewport] = useState<ViewportSize>("desktop");
   const [key, setKey] = useState(0);
+  const prevFilesRef = useRef<string>("");
 
   useEffect(() => {
     setKey((prev) => prev + 1);
   }, [refreshKey]);
 
   // Convert FileNode[] to Sandpack files format
-  const sandpackFiles = files.reduce((acc, file) => {
-    if (file.type === "file" && file.content !== undefined) {
-      acc[`/${file.name}`] = { code: file.content };
+  const sandpackFiles = useMemo(() => {
+    const filesObj: Record<string, { code: string }> = {};
+    files.forEach((file) => {
+      if (file.type === "file" && file.content !== undefined) {
+        if (file.name === "index.html") {
+          filesObj[`/public/index.html`] = { code: file.content };
+        } else {
+          filesObj[`/src/${file.name}`] = { code: file.content };
+        }
+      }
+    });
+    return filesObj;
+  }, [files]);
+
+  // Detect file changes and force re-render
+  useEffect(() => {
+    const currentFilesString = JSON.stringify(sandpackFiles);
+    if (prevFilesRef.current !== currentFilesString) {
+      prevFilesRef.current = currentFilesString;
+      setKey((prev) => prev + 1);
     }
-    return acc;
-  }, {} as Record<string, { code: string }>);
+  }, [sandpackFiles]);
 
   const getViewportWidth = () => {
     switch (viewport) {
@@ -110,14 +127,20 @@ export const PreviewPane = ({ files, refreshKey }: PreviewPaneProps) => {
             options={{
               externalResources: [],
             }}
+            customSetup={{
+              dependencies: {
+                react: "^18.0.0",
+                "react-dom": "^18.0.0",
+              },
+              entry: "/src/index.jsx",
+            }}
           >
-            <SandpackLayout>
-              <SandpackPreview
-                showOpenInCodeSandbox={false}
-                showRefreshButton={false}
-                style={{ height: "100%", border: "none" }}
-              />
-            </SandpackLayout>
+            <SandpackPreview
+              showOpenInCodeSandbox={false}
+              showRefreshButton={false}
+              style={{ height: "100%", border: "none" }}
+              showNavigator={false}
+            />
           </SandpackProvider>
         </div>
       </div>

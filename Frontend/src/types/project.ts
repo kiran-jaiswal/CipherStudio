@@ -18,6 +18,24 @@ export interface Project {
 
 export const DEFAULT_FILES: FileNode[] = [
   {
+    id: 'index-html',
+    name: 'index.html',
+    type: 'file',
+    content: `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + React</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/index.jsx"></script>
+  </body>
+</html>`,
+  },
+  {
     id: 'app-jsx',
     name: 'App.jsx',
     type: 'file',
@@ -31,7 +49,7 @@ export default function App() {
     <div className="App">
       <h1>Welcome to CipherStudio! 🚀</h1>
       <p>Start building your React app here.</p>
-      
+
       <div className="counter">
         <button onClick={() => setCount(count - 1)}>-</button>
         <span className="count">{count}</span>
@@ -91,13 +109,13 @@ button:hover {
   },
   {
     id: 'index-js',
-    name: 'index.js',
+    name: 'index.jsx',
     type: 'file',
     content: `import React, { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./styles.css";
 
-import App from "./App";
+import App from "./App.jsx";
 
 const root = createRoot(document.getElementById("root"));
 root.render(

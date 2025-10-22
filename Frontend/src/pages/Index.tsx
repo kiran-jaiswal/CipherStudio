@@ -4,11 +4,10 @@ import { Toolbar } from "@/components/ide/Toolbar";
 import { FileExplorer } from "@/components/ide/FileExplorer";
 import { CodeEditor } from "@/components/ide/CodeEditor";
 import { PreviewPane } from "@/components/ide/PreviewPane";
-import { SandpackEditor } from "@/components/ide/SandpackEditor";
+
 import { Project, FileNode, DEFAULT_FILES } from "@/types/project";
 import { toast } from "@/hooks/use-toast";
-import { Button } from "@/components/ui/button";
-import { BoxSelect } from "lucide-react";
+
 
 const Index = () => {
   const [project, setProject] = useState<Project>(() => {
@@ -27,7 +26,6 @@ const Index = () => {
   });
 
   const [refreshKey, setRefreshKey] = useState(0);
-  const [showSandpack, setShowSandpack] = useState(false);
 
   const activeFile = project.files.find((f) => f.id === project.activeFileId);
 
@@ -123,13 +121,6 @@ const Index = () => {
 
   return (
     <div className="h-screen w-full flex flex-col bg-background">
-      {showSandpack && (
-        <SandpackEditor
-          files={project.files}
-          onClose={() => setShowSandpack(false)}
-        />
-      )}
-
       <Toolbar
         projectName={project.name}
         onProjectNameChange={handleProjectNameChange}
@@ -171,15 +162,6 @@ const Index = () => {
           <PreviewPane files={project.files} refreshKey={refreshKey} />
         </ResizablePanel>
       </ResizablePanelGroup>
-
-      {/* Floating Sandpack Editor Button */}
-      <Button
-        onClick={() => setShowSandpack(true)}
-        className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg bg-gradient-to-r from-primary to-purple-500 hover:scale-110 transition-transform"
-        size="icon"
-      >
-        <BoxSelect className="h-6 w-6" />
-      </Button>
     </div>
   );
 };
