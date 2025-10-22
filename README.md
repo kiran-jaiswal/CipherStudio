@@ -33,7 +33,7 @@ CipherStudio is an interactive, browser-based React IDE that empowers users to c
 
 * React (Vite) ⚛️
 * Tailwind CSS ✨
-* Sandpack / Monaco Editor for live coding and preview
+* Sandpack Editor for live coding and preview
 
 **Backend (Optional):**
 
