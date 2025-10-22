@@ -138,7 +138,7 @@ export const PreviewPane = ({ files, refreshKey }: PreviewPaneProps) => {
             <SandpackPreview
               showOpenInCodeSandbox={false}
               showRefreshButton={false}
-              style={{ height: "100%", border: "none" }}
+              style={{ height: "100vh", border: "none" }}
               showNavigator={false}
             />
           </SandpackProvider>
