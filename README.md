@@ -11,7 +11,7 @@ CipherStudio is an interactive, browser-based React IDE that empowers users to c
 **Core Features:**
 
 * 📁 **File Management:** Create, delete, and organize project files effortlessly.
-* 📝 **Code Editor:** Integrated Monaco Editor or Sandpack editor for smooth React coding.
+* 📝 **Code Editor:** Integrated Sandpack editor for smooth React coding.
 * 👀 **Live Preview:** See your React app update instantly as you code.
 * 💾 **Save & Load Projects:** Persist your work in `localStorage` or backend using a unique `projectId`.
 * 🎨 **Clean UI/UX:** Intuitive interface for smooth coding experience.
